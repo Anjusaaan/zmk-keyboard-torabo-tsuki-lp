@@ -4,8 +4,37 @@
 #include <input/processors.dtsi>
 #include <dt-bindings/zmk/input_transform.h>
 
+// Auto mouse layer / scroll layer. Keep in sync with config/keymap.keymap.
+#define AUTO_MOUSE_LAYER 1
+#define SCROLL_LAYER     4
+
+// Time in ms the auto mouse layer stays on after the trackball stops moving.
+#define AUTO_MOUSE_TIMEOUT_MS 1000
+
 &pointing_listener {
-    input-processors = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>;
+    input-processors = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>,
+                       <&zip_temp_layer AUTO_MOUSE_LAYER AUTO_MOUSE_TIMEOUT_MS>;
+
+    // While the scroll layer is held, ball movement becomes wheel movement.
+    // process-next keeps the base processors running so zip_temp_layer still
+    // refreshes its timeout while scrolling.
+    scroller {
+        layers = <SCROLL_LAYER>;
+        process-next;
+        // Only X is inverted here: ball away from you scrolls the page up, ball
+        // right scrolls right. Add INPUT_TRANSFORM_Y_INVERT for natural scrolling.
+        input-processors = <&zip_xy_transform INPUT_TRANSFORM_X_INVERT>,
+                           <&zip_xy_to_scroll_mapper>,
+                           <&zip_scroll_scaler 1 8>;
+    };
+};
+
+&zip_temp_layer {
+    // Don't let the ball grab the mouse layer right after a keystroke.
+    require-prior-idle-ms = <150>;
+    // Keymap positions that keep the mouse layer alive when pressed: the mouse
+    // buttons and the scroll layer key on layer 1, plus the two centre keys.
+    excluded-positions = <26 27 28 30 31 33 34 35>;
 };
 
 &size_s_transform {
