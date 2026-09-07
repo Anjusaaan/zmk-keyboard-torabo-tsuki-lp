@@ -4,7 +4,11 @@
 
 / {
     chosen {
-        zmk,physical-layout = &physical_layout_l;
+        // This build targets the size S board only. Keeping M and L enabled
+        // would make ZMK_KEYMAP_LEN 66 and let ZMK Studio switch layouts,
+        // which silently invalidates the key positions the keymap and
+        // zip_temp_layer's excluded-positions are written against.
+        zmk,physical-layout = &physical_layout_s;
         zmk,kscan = &kscan0;
         zmk,battery = &non_lipo_battery;
     };
@@ -148,6 +152,7 @@
 };
 
 &physical_layout_m {
+    status = "disabled";
     compatible = "zmk,physical-layout";
     display-name = "M Layout";
     kscan = <&kscan0>;
@@ -155,6 +160,7 @@
 };
 
 &physical_layout_l {
+    status = "disabled";
     compatible = "zmk,physical-layout";
     display-name = "L Layout";
     kscan = <&kscan0>;

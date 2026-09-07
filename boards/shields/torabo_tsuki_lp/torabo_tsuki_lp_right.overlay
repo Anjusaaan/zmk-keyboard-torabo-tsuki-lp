@@ -33,8 +33,9 @@
     // Don't let the ball grab the mouse layer right after a keystroke.
     require-prior-idle-ms = <150>;
     // Keymap positions that keep the mouse layer alive when pressed: the six
-    // mouse buttons on the home row plus the scroll layer key at position 44.
-    excluded-positions = <26 27 28 33 34 35 44>;
+    // mouse buttons on the home row (S/D/F and J/K/L) plus the scroll layer key.
+    // S physical layout numbering - these must be updated together with the keymap.
+    excluded-positions = <11 12 13 16 17 18 25>;
 };
 
 &size_s_transform {
