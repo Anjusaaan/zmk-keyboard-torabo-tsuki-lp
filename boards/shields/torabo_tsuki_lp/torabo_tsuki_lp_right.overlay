@@ -4,8 +4,8 @@
 #include <input/processors.dtsi>
 #include <dt-bindings/zmk/input_transform.h>
 
-// Auto mouse layer / scroll layer. Keep in sync with config/keymap.keymap.
-#define AUTO_MOUSE_LAYER 1
+// Auto mouse layer / scroll layer. Must match MOUSE / SCROLL in config/keymap.keymap.
+#define AUTO_MOUSE_LAYER 3
 #define SCROLL_LAYER     4
 
 // Time in ms the auto mouse layer stays on after the trackball stops moving.
@@ -33,7 +33,7 @@
     // Don't let the ball grab the mouse layer right after a keystroke.
     require-prior-idle-ms = <150>;
     // Keymap positions that keep the mouse layer alive when pressed: the mouse
-    // buttons and the scroll layer key on layer 1, plus the two centre keys.
+    // buttons and the scroll layer key on the MOUSE layer, plus the two centre keys.
     excluded-positions = <26 27 28 30 31 33 34 35>;
 };
 
