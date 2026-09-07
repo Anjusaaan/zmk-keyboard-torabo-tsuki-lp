@@ -23,9 +23,11 @@
         process-next;
         // Only X is inverted here: ball away from you scrolls the page up, ball
         // right scrolls right. Add INPUT_TRANSFORM_Y_INVERT for natural scrolling.
+        // The scaler is value * 1 / 4, with the remainder carried over: lower the
+        // divisor to scroll faster, raise it to scroll slower.
         input-processors = <&zip_xy_transform INPUT_TRANSFORM_X_INVERT>,
                            <&zip_xy_to_scroll_mapper>,
-                           <&zip_scroll_scaler 1 8>;
+                           <&zip_scroll_scaler 1 4>;
     };
 };
 
